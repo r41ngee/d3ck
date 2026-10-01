@@ -22,7 +22,7 @@ impl AudioSession {
 pub struct Volume(pub f32);
 impl Volume {
     pub fn new(value: f32) -> Option<Self> {
-        (0f32..1f32).contains(&value)
+        (0f32..=1f32).contains(&value)
             .then_some(Self(value))
     }
 
