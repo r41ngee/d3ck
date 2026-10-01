@@ -35,6 +35,15 @@ impl Volume {
     }
 }
 
+pub trait AudioSessionControl {
+    fn volume(&self, id: AudioSessionId) -> Option<Volume>;
+    fn set_volume(&self, id: AudioSessionId, volume: Volume);
+
+    fn is_muted(&self, id: AudioSessionId) -> Option<bool>;
+    fn set_muted(&self, id: AudioSessionId, state: bool);
+}
+
+
 pub type AudioDeviceId = u32;
 
 #[derive(Getters, CopyGetters)]
