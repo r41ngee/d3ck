@@ -11,6 +11,10 @@ pub struct Process {
 }
 
 impl Process {
+    pub fn new(id: ProcId, name: impl ToString) -> Self {
+        Self { id, name: name.to_string() }
+    }
+    
     pub fn id(&self) -> ProcId {
         self.id
     }
