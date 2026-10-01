@@ -1,11 +1,7 @@
-use getset::{CopyGetters, Getters};
-
 use crate::{ProcId, error::VolumeError};
 
 pub type AudioSessionId = u32;
 
-#[allow(dead_code)]
-#[derive(Getters, CopyGetters)]
 pub struct AudioSession {
     id: AudioSessionId,
     process_id: Option<ProcId>,
@@ -16,6 +12,32 @@ pub struct AudioSession {
 impl AudioSession {
     pub fn new(id: AudioSessionId, process_id: Option<ProcId>, volume: Volume, muted: bool) -> Self {
         Self { id, process_id, volume, muted }
+    }
+}
+
+impl AudioSession {
+    pub fn id(&self) -> AudioSessionId {
+        self.id
+    }
+
+    pub fn process_id(&self) -> Option<ProcId> {
+        self.process_id
+    }
+
+    pub fn volume(&self) -> &Volume {
+        &self.volume
+    }
+
+    pub fn volume_mut(&mut self) -> &mut Volume {
+        &mut self.volume
+    }
+
+    pub fn muted(&self) -> bool {
+        self.muted
+    }
+
+    pub fn muted_mut(&mut self) -> &mut bool {
+        &mut self.muted
     }
 }
 
@@ -61,8 +83,6 @@ pub trait AudioSessionControl {
 
 pub type AudioDeviceId = u32;
 
-#[derive(Getters, CopyGetters)]
-#[allow(dead_code)]
 pub struct AudioDevice {
     id: AudioDeviceId,
     name: String,
@@ -71,6 +91,16 @@ pub struct AudioDevice {
 impl AudioDevice {
     pub fn new(id: AudioDeviceId, name: String) -> Self {
         Self { id, name }
+    }
+}
+
+impl AudioDevice {
+    pub fn id(&self) -> AudioDeviceId {
+        self.id
+    }
+
+    pub fn name(&self) -> &str {
+        &self.name
     }
 }
 
