@@ -1,6 +1,6 @@
 use getset::{CopyGetters, Getters};
 
-use crate::ProcId;
+use crate::{ProcId, error::VolumeError};
 
 pub type AudioSessionId = u32;
 
@@ -19,19 +19,34 @@ impl AudioSession {
     }
 }
 
-pub struct Volume(pub f32);
+pub struct Volume(f32);
 impl Volume {
-    pub fn new(value: f32) -> Option<Self> {
-        (0f32..=1f32).contains(&value)
-            .then_some(Self(value))
+    fn check_acceptable_value(value: &f32) -> bool {
+        (0f32..=1f32).contains(value)
+    }
+
+    pub fn new(value: f32) -> Result<Self, VolumeError> {
+        if Self::check_acceptable_value(&value) {
+            return Ok(Self(value))
+        } else {
+            return Err(VolumeError::OutOfBounds(value))
+        }
     }
 
     pub fn value(&self) -> f32 {
-        self.0
+        let value = self.0;
+        if Self::check_acceptable_value(&value) {
+            value
+        } else { panic!("Volume(f32) is out of bounds") }
     }
 
-    pub fn set_value(&mut self, value: f32) {
-        self.0 = value
+    pub fn set_value(&mut self, value: f32) -> Result<(), VolumeError> {
+        if Self::check_acceptable_value(&value) {
+            self.0 = value;
+            Ok(())
+        } else {
+            Err(VolumeError::OutOfBounds(value))
+        }
     }
 }
 

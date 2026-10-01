@@ -1,4 +1,5 @@
 pub mod audio;
+pub mod error;
 #[doc(inline)]
 pub use audio::*;
 
