@@ -1,0 +1,8 @@
+[package]
+name = "d3ck-win"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+d3ck-core = { version = "0.1.0", path = "../d3ck-core" }
+windows = { version = "0.62.2", features = ["Win32_UI_WindowsAndMessaging"] }
