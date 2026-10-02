@@ -78,6 +78,11 @@ pub trait AudioSessionControl {
 
     fn is_muted(&self, id: AudioSessionId) -> Option<bool>;
     fn set_muted(&self, id: AudioSessionId, state: bool);
+
+    type SystemError: std::error::Error;
+
+    fn pull(&mut self) -> Result<(), Self::SystemError>;
+    fn push(&self) -> Result<(), Self::SystemError>;
 }
 
 
