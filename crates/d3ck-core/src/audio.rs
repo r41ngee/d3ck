@@ -24,19 +24,19 @@ impl AudioSession {
         self.process_id
     }
 
-    pub fn volume(&self) -> &Volume {
+    fn volume(&self) -> &Volume {
         &self.volume
     }
 
-    pub fn volume_mut(&mut self) -> &mut Volume {
+    fn volume_mut(&mut self) -> &mut Volume {
         &mut self.volume
     }
 
-    pub fn muted(&self) -> bool {
+    fn muted(&self) -> bool {
         self.muted
     }
 
-    pub fn muted_mut(&mut self) -> &mut bool {
+    fn muted_mut(&mut self) -> &mut bool {
         &mut self.muted
     }
 }
