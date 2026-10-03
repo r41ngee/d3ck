@@ -73,11 +73,30 @@ impl Volume {
 }
 
 pub trait AudioSessionControl {
-    fn volume(&self, id: AudioSessionId) -> Option<Volume>;
-    fn set_volume(&mut self, id: AudioSessionId, volume: Volume);
+    fn session(&self, id: AudioSessionId) -> Option<&AudioSession>;
+    fn session_mut(&mut self, id: AudioSessionId) -> Option<&mut AudioSession>;
 
-    fn is_muted(&self, id: AudioSessionId) -> Option<bool>;
-    fn set_muted(&mut self, id: AudioSessionId, state: bool);
+    fn volume(&self, id: AudioSessionId) -> Option<&Volume> {
+        Some(self.session(id)?.volume())
+    }
+    fn set_volume(&mut self, id: AudioSessionId, volume: Volume) -> bool {
+        if let Some(s) = self.session_mut(id) {
+            *s.volume_mut() = volume;
+            return true;
+        }
+        return false;
+    }
+
+    fn is_muted(&self, id: AudioSessionId) -> Option<bool> {
+        Some(self.session(id)?.muted())
+    }
+    fn set_muted(&mut self, id: AudioSessionId, state: bool) -> bool {
+        if let Some(s) = self.session_mut(id) {
+            *s.muted_mut() = state;
+            return true;
+        }
+        return false;
+    }
 
     type SystemError: std::error::Error;
 
