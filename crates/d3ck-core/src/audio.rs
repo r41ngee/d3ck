@@ -73,6 +73,8 @@ impl Volume {
 }
 
 pub trait AudioSessionControl {
+    type Provider: AudioProvider;
+
     fn session(&self, id: AudioSessionId) -> Option<&AudioSession>;
     fn session_mut(&mut self, id: AudioSessionId) -> Option<&mut AudioSession>;
 
